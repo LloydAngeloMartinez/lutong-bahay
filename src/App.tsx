@@ -254,7 +254,7 @@ function App() {
           </div>
           <div>
             <h1>Lutong Bahay Finder</h1>
-            <p>Walang account. Mga lutong Pinoy na tugma sa mga sangkap mo.</p>
+            <p>Filipino recipes.</p>
           </div>
         </div>
         <div className="top-actions">
