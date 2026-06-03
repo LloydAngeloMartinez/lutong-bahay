@@ -63,15 +63,17 @@ function isAllowedOrigin(origin) {
 }
 
 app.disable("x-powered-by");
+app.use((req, res, next) => {
+  if (!isAllowedOrigin(req.get("origin"))) {
+    return res.status(403).json({ error: "Origin is not allowed." });
+  }
+
+  return next();
+});
 app.use(
   cors({
     origin(origin, callback) {
-      if (isAllowedOrigin(origin)) {
-        callback(null, true);
-        return;
-      }
-
-      callback(new Error("Origin is not allowed by CORS."));
+      callback(null, isAllowedOrigin(origin));
     }
   })
 );
@@ -150,6 +152,30 @@ if (existsSync(distPath)) {
     res.sendFile(path.join(distPath, "index.html"));
   });
 }
+
+app.use("/api", (_req, res) => {
+  res.status(404).json({ error: "API route not found." });
+});
+
+app.use((error, _req, res, next) => {
+  if (res.headersSent) {
+    next(error);
+    return;
+  }
+
+  if (error?.type === "entity.too.large") {
+    res.status(413).json({ error: "Request body is too large." });
+    return;
+  }
+
+  if (error instanceof SyntaxError && "body" in error) {
+    res.status(400).json({ error: "Malformed JSON request body." });
+    return;
+  }
+
+  console.error("Unhandled server error:", error?.message || error);
+  res.status(500).json({ error: "Unexpected server error." });
+});
 
 app.listen(port, () => {
   console.log(`Lutong Bahay API listening on http://127.0.0.1:${port}`);
