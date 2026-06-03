@@ -8,7 +8,7 @@ import Groq from "groq-sdk";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const port = Number(process.env.PORT || 8787);
-const allowedOrigins = (process.env.ALLOWED_ORIGINS || "http://127.0.0.1:5173")
+const allowedOrigins = (process.env.ALLOWED_ORIGINS || "http://127.0.0.1:5173,http://localhost:5173")
   .split(",")
   .map((origin) => origin.trim())
   .filter(Boolean);
@@ -57,14 +57,20 @@ function normalizePantry(value) {
     .slice(0, 80);
 }
 
-function isAllowedOrigin(origin) {
+function isAllowedOrigin(origin, host) {
   if (!origin) return true;
-  return allowedOrigins.includes(origin);
+  if (allowedOrigins.includes(origin)) return true;
+
+  try {
+    return new URL(origin).host === host;
+  } catch {
+    return false;
+  }
 }
 
 app.disable("x-powered-by");
 app.use((req, res, next) => {
-  if (!isAllowedOrigin(req.get("origin"))) {
+  if (!isAllowedOrigin(req.get("origin"), req.get("host"))) {
     return res.status(403).json({ error: "Origin is not allowed." });
   }
 

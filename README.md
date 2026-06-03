@@ -68,6 +68,35 @@ RATE_MAX_REQUESTS=20
 
 If the frontend and API are served from the same Express app, `ALLOWED_ORIGINS` is mainly needed for separate preview/dev origins.
 
+## Vercel Deployment
+
+This repo includes Vercel Functions in `api/assistant.js` and `api/health.js`, so the frontend can keep calling `/api/assistant` after deployment.
+
+Import the GitHub repository in Vercel and use:
+
+```text
+Framework Preset: Vite
+Build Command: npm run build
+Output Directory: dist
+Install Command: npm install
+```
+
+Add these environment variables in Vercel Project Settings:
+
+```env
+GROQ_API_KEY=your_groq_api_key_here
+GROQ_MODEL=llama-3.3-70b-versatile
+ASSISTANT_TIMEOUT_MS=25000
+RATE_WINDOW_MS=60000
+RATE_MAX_REQUESTS=20
+```
+
+`ALLOWED_ORIGINS` is optional on Vercel because same-host requests are allowed automatically. If you set it, include your Vercel domain:
+
+```env
+ALLOWED_ORIGINS=https://your-project.vercel.app
+```
+
 ## Health Check
 
 The API exposes:

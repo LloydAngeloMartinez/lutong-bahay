@@ -231,7 +231,7 @@ function App() {
       setAssistantAnswer(
         isAbort
           ? "Matagal sumagot ang assistant. Subukan ulit mamaya."
-          : "Patakbuhin ang optional Groq API server para gumana ang assistant. Gumagana pa rin ang recipe matcher kahit wala ito."
+          : "Run the optional Groq API server to enable the assistant. The recipe matcher still works without it."
       );
     } finally {
       window.clearTimeout(timeout);
