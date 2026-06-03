@@ -115,6 +115,7 @@ function App() {
   const [randomPickName, setRandomPickName] = useState("");
   const [randomizingName, setRandomizingName] = useState("");
   const [isRandomizing, setIsRandomizing] = useState(false);
+  const [showPrivacyPolicy, setShowPrivacyPolicy] = useState(false);
   const [assistantInput, setAssistantInput] = useState("");
   const [assistantAnswer, setAssistantAnswer] = useState("Magtanong tungkol sa pamalit, tipid na luto, o susunod na lulutuin.");
   const [assistantLoading, setAssistantLoading] = useState(false);
@@ -518,8 +519,67 @@ function App() {
 
       <footer className="footer-note">
         <BookOpen size={16} />
-        Lokal ang recipe data para sa bersyong walang account. Ang sangkap, paborito, at listahan ng bibilhin ay naka-save lang sa browser na ito.
+        <span>Recipe data is local for this no-account version. Pantry, favorites, and shopping list data stay in this browser.</span>
+        <button type="button" onClick={() => setShowPrivacyPolicy(true)}>Privacy Policy</button>
       </footer>
+
+      {showPrivacyPolicy && (
+        <div
+          className="modal-backdrop"
+          role="presentation"
+          onClick={() => setShowPrivacyPolicy(false)}
+        >
+          <section
+            aria-labelledby="privacy-title"
+            aria-modal="true"
+            className="policy-modal"
+            role="dialog"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="policy-header">
+              <div>
+                <p>Last updated: June 3, 2026</p>
+                <h2 id="privacy-title">Privacy Policy</h2>
+              </div>
+              <button type="button" onClick={() => setShowPrivacyPolicy(false)} aria-label="Close privacy policy">
+                Close
+              </button>
+            </div>
+
+            <div className="policy-content">
+              <section>
+                <h3>No Accounts</h3>
+                <p>Lutong Bahay Finder does not require user accounts, sign-ins, or profile information.</p>
+              </section>
+
+              <section>
+                <h3>Local Browser Data</h3>
+                <p>Your pantry ingredients, favorites, and shopping list are saved only in your browser through localStorage. This information is not sent to a database by the recipe matcher.</p>
+              </section>
+
+              <section>
+                <h3>AI Assistant</h3>
+                <p>If you use the optional Groq assistant, your question, current pantry ingredients, and selected recipe name are sent to the app's API so Groq can generate a cooking response. Do not enter private, sensitive, or personal information in assistant prompts.</p>
+              </section>
+
+              <section>
+                <h3>Recipe And Image Data</h3>
+                <p>Recipes and dish images are public app content. They are loaded as part of the web app and are not personalized.</p>
+              </section>
+
+              <section>
+                <h3>Hosting And Logs</h3>
+                <p>When deployed, the hosting provider may process normal technical information such as request URLs, timestamps, IP addresses, and error logs to run and protect the service.</p>
+              </section>
+
+              <section>
+                <h3>Your Choices</h3>
+                <p>You can clear saved pantry, favorites, and shopping list data by clearing this site's browser storage. You can also use the recipe matcher without using the AI assistant.</p>
+              </section>
+            </div>
+          </section>
+        </div>
+      )}
     </main>
   );
 }

@@ -770,9 +770,90 @@ select:focus {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  flex-wrap: wrap;
+  gap: 8px 10px;
   padding: 18px 0 0;
   font-size: 13px;
+}
+
+.footer-note button {
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  padding: 0;
+  color: #1f7a50;
+  background: transparent;
+  font-weight: 800;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background: rgba(36, 37, 31, 0.48);
+}
+
+.policy-modal {
+  width: min(720px, 100%);
+  max-height: min(760px, calc(100vh - 36px));
+  overflow: auto;
+  border: 1px solid #e4dfd2;
+  border-radius: 8px;
+  background: #fffdf8;
+  box-shadow: 0 24px 80px rgba(36, 37, 31, 0.24);
+}
+
+.policy-header {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid #e8e1d4;
+  padding: 18px 20px;
+  background: #fffdf8;
+}
+
+.policy-header p {
+  margin-bottom: 4px;
+  color: #74766a;
+  font-size: 13px;
+}
+
+.policy-header h2 {
+  font-size: 24px;
+}
+
+.policy-header button {
+  min-height: 36px;
+  border: 1px solid #ded8c8;
+  border-radius: 8px;
+  padding: 0 12px;
+  color: #1f7a50;
+  background: #fff;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.policy-content {
+  display: grid;
+  gap: 18px;
+  padding: 20px;
+}
+
+.policy-content h3 {
+  margin-bottom: 6px;
+  font-size: 16px;
+}
+
+.policy-content p {
+  color: #56584f;
+  font-size: 14px;
+  line-height: 1.55;
 }
 
 @media (max-width: 1180px) {
